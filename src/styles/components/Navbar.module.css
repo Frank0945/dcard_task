@@ -1,0 +1,41 @@
+.navbar {
+    background-color: var(--color-default) !important;
+    padding: 4px;
+}
+
+.inputBox {
+    margin-left: auto;
+    margin-right: 30px;
+    width: 50%;
+    max-width: 500px;
+}
+
+.searchInput {
+    border-radius: 10px;
+    background: var(--color-dark);
+    border: none;
+    color: var(--color-text-default);
+}
+
+.searchInput:focus {
+    background: var(--color-dark);
+    color: var(--color-text-default);
+}
+
+.userPic {
+    border-radius: 50%;
+    width: 35px;
+}
+
+.dropdownToggle {
+    color: var(--color-text-semi-light);
+}
+
+.dropdownToggle:hover,
+.dropdownToggle:focus {
+    color: var(--color-text-default);
+}
+
+.dropdownMenu {
+    position: absolute !important;
+}

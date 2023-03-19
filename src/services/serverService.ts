@@ -1,27 +1,31 @@
 import { UserService } from "./userService";
-import { useSession } from 'next-auth/react'
 import { Session } from "next-auth";
+import { getSession } from 'next-auth/react'
 
 class ServerService {
     public user: UserService = new UserService();
     private session: Session | null = null;
 
-    public init(): Promise<void> {
-        return new Promise<void>((resolve) => {
+    public init(): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
             if (this.session)
-                resolve();
+                resolve(true);
 
-            const { data: session } = useSession();
-            this.session = session;
-            if (session?.accessToken)
-                resolve();
+            getSession().then((session) => {
+                console.log(session);
+
+                if (session) {
+                    this.session = session;
+                    resolve(true);
+                }
+                resolve(false);
+            });
         });
     }
 
     public getSession(): Session | null {
         return this.session;
     }
-
 }
 
 export const serverService = new ServerService();

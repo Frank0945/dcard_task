@@ -57,3 +57,10 @@ a {
 .form-control:focus {
     box-shadow: unset;
 }
+
+.btn-primary {
+    --bs-btn-color: var(--color-text-default);
+    --bs-btn-bg: var(--color-default);
+    --bs-btn-border-color: none;
+    --bs-btn-hover-bg: var(--color-dark);
+}

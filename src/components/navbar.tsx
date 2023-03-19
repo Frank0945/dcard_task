@@ -1,13 +1,10 @@
 import { serverService } from '@/services/serverService';
 import styles from '@/styles/components/Navbar.module.css'
 import Link from 'next/link';
-import { useEffect } from 'react';
 import { signOut } from 'next-auth/react'
 
 export default function Navbar() {
-    useEffect(() => {
-        console.log(serverService.user.getUser().picture);
-    }, []);
+
     return (
         <nav className={"navbar fixed-top bg-light " + styles.navbar}>
             <div className="container-xxl">
@@ -24,7 +21,7 @@ export default function Navbar() {
                             <img className={styles.userPic} src={serverService.user.getUser().picture} />
                         </a>
                         <ul className={"dropdown-menu dropdown-menu-end " + styles.dropdownMenu}>
-                            <li><h6 className="dropdown-header">Hi <b>{serverService.getSession()?.user?.name}</b>!</h6></li>
+                            <li><h6 className="dropdown-header">Hi <b>{serverService.user.getUser().name}</b>!</h6></li>
                             <li><hr className="dropdown-divider" /></li>
                             <li><button className="dropdown-item" onClick={() => signOut()}>Sign out</button></li>
                         </ul>

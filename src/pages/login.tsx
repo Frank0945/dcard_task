@@ -1,17 +1,15 @@
 import Head from 'next/head'
 import styles from '@/styles/pages/Login.module.css'
 import { serverService } from '@/services/serverService'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 export default function Login() {
-    const { data: session } = useSession();
     const router = useRouter();
 
-    if (session)
+    if (serverService.getSession())
         router.replace('/');
-
-    if (useSession().status == "unauthenticated")
+    else
         return (
             <>
                 <Head>

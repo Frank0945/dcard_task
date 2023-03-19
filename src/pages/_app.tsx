@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from "next-auth/react"
-import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { serverService } from '@/services/serverService'
@@ -13,10 +12,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    getSession().then((sess) => {
-      if (sess)
-        setIsLogin(true);
-      else
+    serverService.init().then((status) => {
+      setIsLogin(status);
+      if (!status)
         router.replace("/login")
     });
   }, []);

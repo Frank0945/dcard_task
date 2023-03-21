@@ -1,5 +1,6 @@
 .main {
     width: 50%;
+    min-width: 350px;
     max-width: 550px;
     display: flex;
     flex-direction: column;
@@ -38,10 +39,6 @@
     display: flex;
     justify-content: end;
     margin-top: 15px;
-}
-
-.footer button {
-    width: 80px;
 }
 
 .footer button:last-child {

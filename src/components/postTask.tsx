@@ -1,3 +1,5 @@
+import { dialogService } from '@/services/dialogService';
+import { serverService } from '@/services/serverService';
 import styles from '@/styles/components/PostTask.module.css'
 import { useRef, useState } from 'react';
 import { useDetectClickOutside } from 'react-detect-click-outside';
@@ -28,12 +30,25 @@ export default function PostTask() {
     };
 
     const handelPost = () => {
-        console.log(title);
-        console.log(content);
+        const loading = dialogService.loading();
+
+        serverService.task.postTask(title, content).then((res) => {
+            console.log(res);
+            handelCancelPost();
+        }).catch((err) => {
+            dialogService.alert({
+                title: "Error",
+                message: err.message,
+                confirm: "Ok",
+            });
+        }).finally(() => {
+            loading.close();
+        });
     };
 
     return (
         <div className={styles.main} ref={mainRef}>
+
             {focus &&
                 <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" className={styles.title} />
             }
@@ -51,7 +66,7 @@ export default function PostTask() {
                 >
                 </span>
             </div>
-            {content &&
+            {focus &&
                 <div className={styles.footer}>
                     <button onClick={handelCancelPost} className={"btn btn-outline-secondary " + styles.cancelBtn}>Cancel</button>
                     <button onClick={handelPost} className={"btn btn-primary " + styles.postBtn}>Post</button>

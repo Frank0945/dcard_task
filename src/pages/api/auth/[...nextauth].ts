@@ -12,7 +12,6 @@ export default NextAuth({
                 },
             },
         }),
-
     ],
     callbacks: {
         async jwt({ token, account }) {

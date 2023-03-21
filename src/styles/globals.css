@@ -58,9 +58,22 @@ a {
     box-shadow: unset;
 }
 
+.btn {
+    min-width: 80px;
+}
+
 .btn-primary {
     --bs-btn-color: var(--color-text-default);
     --bs-btn-bg: var(--color-default);
     --bs-btn-border-color: none;
     --bs-btn-hover-bg: var(--color-dark);
+    --bs-btn-active-bg: var(--color-dark);
+}
+
+.modal {
+    --bs-modal-color: #000;
+}
+
+.spinner-border {
+    color: var(--color-default);
 }

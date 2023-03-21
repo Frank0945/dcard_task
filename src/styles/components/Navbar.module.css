@@ -4,10 +4,10 @@
 }
 
 .inputBox {
-    margin-left: auto;
-    margin-right: 30px;
+    margin-right: auto;
+    margin-left: 30px;
     width: 50%;
-    max-width: 500px;
+    max-width: 550px;
 }
 
 .searchInput {
@@ -29,6 +29,8 @@
 
 .dropdownToggle {
     color: var(--color-text-semi-light);
+    display: flex;
+    align-items: center;
 }
 
 .dropdownToggle:hover,

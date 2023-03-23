@@ -1,0 +1,22 @@
+.main {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    justify-content: center;
+}
+
+.taskList {
+    width: 100%;
+    position: relative;
+}
+
+.loading {
+    min-height: 130px;
+    width: 240px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -11,8 +11,8 @@ export default function Alert() {
     useEffect(() => {
         const alertController = (data: IAlert): Promise<void> => {
             return new Promise<void>((resolve) => {
+                setDialog(data);
                 openBtnRef.current?.click();
-                setDialog({ title: data.title, message: data.message, confirm: data.confirm });
 
                 closeBgRef?.current?.addEventListener("click", () => { resolve(); });
                 closeBtnRef?.current?.addEventListener("click", () => { resolve(); });

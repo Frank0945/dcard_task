@@ -7,6 +7,7 @@
     --color-bg: #00324e;
     --color-text-default: #f1f1f1;
     --color-text-semi-light: rgba(255, 255, 255, .5);
+    --color-border-default: #646464;
 }
 
 * {
@@ -60,6 +61,10 @@ a {
 
 .btn {
     min-width: 80px;
+}
+
+.btn.disabled {
+    background-color: var(--color-default);
 }
 
 .btn-primary {

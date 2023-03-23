@@ -9,6 +9,15 @@ class ServerService {
     public task: TaskService = new TaskService();
     private session: Session | null = null;
 
+    private hostTime: number = Date.now();
+    private localStartTime: number = Date.now();
+
+    constructor() {
+        this.getHostTime().then((time) => {
+            this.hostTime = time;
+        });
+    }
+
     public init(): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             if (this.session)
@@ -24,22 +33,33 @@ class ServerService {
         });
     }
 
-    public isLogin(): boolean {
+    public get isLogin(): boolean {
         return this.session ? true : false;
     }
 
-    private getSavedSession(): Session | null {
+    public get serverTime(): number {
+        return this.hostTime + Date.now() - this.localStartTime;
+    }
+
+    private get savedSession(): Session | null {
         return this.session;
     }
 
-    private githubApi(uri: string, data?: any): Promise<any> {
+    private githubApi(uri: string, action: 'get' | 'post', data?: any): Promise<any> {
         const githubApiUrl = 'https://api.github.com/repos/Frank0945/dcard_task';
         const headers = { Authorization: `token ${this.session?.accessToken}` };
-        if (data)
+        if (action === 'post')
             return axios.post(githubApiUrl + uri, data, { headers: headers });
         else
-            return axios.get(githubApiUrl + uri);
+            return axios.get(githubApiUrl + uri, { params: data });
+    }
+
+    private getHostTime(): Promise<number> {
+        return new Promise<number>((resolve) => {
+            axios.get('/api/time').then((res: any) => {
+                resolve(res.data.hostTime);
+            });
+        });
     }
 }
-
 export const serverService = new ServerService();

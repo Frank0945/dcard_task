@@ -3,7 +3,7 @@ import { AbstractSubService } from './abstractSubService';
 export class UserService extends AbstractSubService {
 
     public getUser(): IUser {
-        const session = this.getSavedSession();
+        const session = this.savedSession;
         const user = {
             name: session?.user?.name as string,
             picture: session?.user?.image as string,

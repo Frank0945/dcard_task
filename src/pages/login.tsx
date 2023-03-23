@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 export default function Login() {
     const router = useRouter();
 
-    if (serverService.isLogin())
+    if (serverService.isLogin)
         router.replace('/');
     else
         return (

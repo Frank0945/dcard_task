@@ -17,7 +17,7 @@ export default function Navbar() {
 
                 <ul className="navbar-nav">
                     <li className="nav-item dropdown">
-                        <a className={"nav-link dropdown-toggle " + styles.dropdownToggle} href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a className={"nav-link dropdown-toggle " + styles.dropdownToggle} role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img className={styles.userPic} src={serverService.user.getUser().picture} />
                         </a>
                         <ul className={"dropdown-menu dropdown-menu-end " + styles.dropdownMenu}>

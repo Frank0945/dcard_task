@@ -10,16 +10,53 @@ export default function PostTask(props: { onPosted: () => void }) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [postDisabled, setPostDisabled] = useState(true);
+    const [contentPlaceHolder, setContentPlaceHolder] = useState('');
     const contentRef = useRef<HTMLTextAreaElement>(null);
+    const contentPlaceHolderRef = useRef<HTMLDivElement>(null);
 
-    const handelCancelFocus = () => {
+    const handleCancelFocus = () => {
         if (!title && !content)
             setFocus(false);
     };
-    const mainRef = useDetectClickOutside({ onTriggered: handelCancelFocus });
+    const mainRef = useDetectClickOutside({ onTriggered: handleCancelFocus });
+
+    let interval: any = null;
 
     useEffect(() => {
-    }, []);
+        const placeHolders = [
+            "Add task...",
+            "Complete annual report, submit by Friday",
+            "Buy pizza ingredients for weekend",
+            "Confirm order delivery time",
+            "Respond to customer email",
+            "Organize office files"
+        ];
+
+        setContentPlaceHolder(placeHolders[0]);
+
+        if (!content && !focus) {
+
+            let idx = 1;
+            const choosePlaceHolder = () => {
+
+                if (idx >= placeHolders.length)
+                    idx = 0;
+                setContentPlaceHolder(placeHolders[idx]);
+                idx++;
+                contentPlaceHolderRef.current!.style.animationName = 'typing';
+            };
+            interval = setInterval(() => {
+                choosePlaceHolder();
+            }, 5000);
+        } else {
+            contentPlaceHolderRef.current!.style.animationName = '';
+        }
+
+        return () => {
+            clearInterval(interval);
+        }
+
+    }, [content, focus]);
 
     useEffect(() => {
         if (title && content.length >= 30)
@@ -27,12 +64,12 @@ export default function PostTask(props: { onPosted: () => void }) {
         else
             setPostDisabled(true);
 
+        contentRef.current!.style.height = '0';
+        contentRef.current!.style.height = contentRef.current!.scrollHeight + 'px';
     }, [content, title]);
 
-    const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        contentRef.current!.style.height = '0';
-        contentRef.current!.style.height = e.target.scrollHeight + 'px';
-        setContent(e.target.value);
+    const handleContentChange = () => {
+        setContent(contentRef.current!.value);
         setFocus(true);
     };
 
@@ -47,7 +84,7 @@ export default function PostTask(props: { onPosted: () => void }) {
         setFocus(false);
     };
 
-    const handelCancelPost = () => {
+    const handleCancelPost = () => {
         if (title || content) {
             dialogService.confirm({
                 title: "The site doesn't keep your unpublished task",
@@ -61,12 +98,11 @@ export default function PostTask(props: { onPosted: () => void }) {
             clearAllInput();
     };
 
-    const handelPost = () => {
+    const handlePost = () => {
         const loading = dialogService.loading();
 
         serverService.task.postTask(title, content).then((res) => {
             clearAllInput();
-            console.log('posted');
             console.log(res);
             props.onPosted();
 
@@ -89,15 +125,19 @@ export default function PostTask(props: { onPosted: () => void }) {
                     ref={contentRef}
                     onClick={() => setFocus(true)}
                     onChange={handleContentChange}
-                    placeholder="Add Task..."
                     className={styles.content}
                     rows={1}
                 />
+                <div ref={contentPlaceHolderRef} className={styles.contentPlaceHolder}>
+                    {!content &&
+                        <>{contentPlaceHolder}</>
+                    }
+                </div>
             </div>
             {focus &&
                 <div className={styles.footer}>
-                    <button onClick={handelCancelPost} className={"btn btn-outline-secondary " + styles.cancelBtn}>Cancel</button>
-                    <button onClick={handelPost} className={"btn btn-primary " + (postDisabled ? "disabled" : "")}>Post</button>
+                    <button onClick={handleCancelPost} className={"btn btn-outline-secondary " + styles.cancelBtn}>Cancel</button>
+                    <button onClick={handlePost} className={"btn btn-primary " + (postDisabled ? "disabled" : "")}>Post</button>
                 </div>
             }
         </div>

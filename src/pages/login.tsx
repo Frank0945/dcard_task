@@ -29,7 +29,7 @@ export default function Login() {
                                 <div className={styles.subtitle}>You must be logged in to access this service.</div>
                             </div>
                             <button type="button" className={"btn btn-dark " + styles.loginBtn} onClick={() => signIn("github")}>
-                                <img src='/github.svg' width={30} />Sign in with Github
+                                <i className="bi bi-github"></i>Sign in with Github
                             </button>
                         </div>
                     </div>

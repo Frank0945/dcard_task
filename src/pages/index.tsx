@@ -8,7 +8,7 @@ export default function Home() {
 
   const [reload, setReload] = useState(0);
 
-  const handelPosted = () => {
+  const handlePosted = () => {
     setReload(reload + 1);
   };
 
@@ -18,7 +18,7 @@ export default function Home() {
         <title>Task</title>
       </Head>
       <main className={styles.main}>
-        <PostTask onPosted={handelPosted} />
+        <PostTask onPosted={handlePosted} />
         <TaskList reload={reload} />
       </main>
     </>

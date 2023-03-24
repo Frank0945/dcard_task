@@ -64,8 +64,11 @@
     margin-top: 50px;
     font-size: 23px;
     padding-right: 0.7em;
+    border: 1px solid var(--color-border-default);
 }
 
-.loginBtn img {
-    margin-right: 0.7em;
+.loginBtn i {
+    font-size: 30px;
+    margin: 0;
+    margin-right: 12px;
 }

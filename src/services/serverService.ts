@@ -46,7 +46,7 @@ class ServerService {
     }
 
     private githubApi(uri: string, action: 'get' | 'post', data?: any): Promise<any> {
-        const githubApiUrl = 'https://api.github.com/repos/Frank0945/dcard_task';
+        const githubApiUrl = 'https://api.github.com';
         const headers = { Authorization: `token ${this.session?.accessToken}` };
         if (action === 'post')
             return axios.post(githubApiUrl + uri, data, { headers: headers });

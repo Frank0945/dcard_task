@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     padding: 6rem;
+    padding-top: 6.5rem;
     min-height: 100vh;
 }
 

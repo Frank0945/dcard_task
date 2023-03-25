@@ -4,12 +4,15 @@ import { serverService } from '@/services/serverService';
 import styles from '@/styles/components/task/TaskBox.module.css'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import TaskContentArea from './taskContentArea';
 
-export default function TaskBox(props: { task: any, deleteTask: (number: number) => void }) {
+export default function TaskBox(props: { task: any, editable: boolean, deleteTask: (number: number) => void }) {
 
     const router = useRouter();
     const [task, setTask] = useState(props.task);
     const status = ['open', 'in progress', 'done'];
+    const [content, setContent] = useState(task.body);
+    const [title, setTitle] = useState(task.title);
 
     const handleChangeStatus = (newStatus: any) => {
         const loading = dialogService.loading();
@@ -44,7 +47,6 @@ export default function TaskBox(props: { task: any, deleteTask: (number: number)
     }
 
     const markHighlightText = (text: string): string => {
-        const router = useRouter();
         const query = router.query.q?.toString();
         if (query) {
             const regex = new RegExp(query, 'gi');
@@ -53,15 +55,31 @@ export default function TaskBox(props: { task: any, deleteTask: (number: number)
         return text;
     }
 
+    const handleContentChange = (content: string) => {
+        setContent(content);
+    };
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.target.value);
+    };
+
+    const handleFooterFunClick = (e: any) => {
+        e.stopPropagation();
+    }
+
     return (
-        <div className={styles.taskBox}>
+        <div className={styles.taskBox + (props.editable ? '' : ` ${styles.readOnly}`)}>
             <div className={styles.mainContent}>
-                <div className={styles.title} dangerouslySetInnerHTML={{ __html: markHighlightText(task.title) }} />
-                <button className={styles.more + " btn btn-secondary dropdown-toggle"} type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {props.editable ?
+                    <input value={title} onChange={handleTitleChange} className={styles.title} placeholder="Title" />
+                    :
+                    <div className={styles.title} dangerouslySetInnerHTML={{ __html: markHighlightText(title) }} />
+                }
+                <button onClick={handleFooterFunClick} className={styles.more + " btn btn-secondary dropdown-toggle"} type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i className="bi bi-three-dots-vertical"></i>
                 </button>
                 <ul className="dropdown-menu dropdown-menu-end">
-                    <li>
+                    <li onClick={handleFooterFunClick}>
                         <button className="dropdown-item">
                             <i className="bi bi-pencil-square"></i>
                             Edit on single page
@@ -72,19 +90,22 @@ export default function TaskBox(props: { task: any, deleteTask: (number: number)
                         </button>
                     </li>
                 </ul>
-
-                <div className={styles.content} dangerouslySetInnerHTML={{ __html: markHighlightText(task.body.replaceAll('\n', '<br/>')) }}></div>
+                {props.editable ?
+                    <TaskContentArea editable={props.editable} content={content} contentChange={handleContentChange} />
+                    :
+                    <div className={styles.content} dangerouslySetInnerHTML={{ __html: markHighlightText(content.replaceAll('\n', '<br/>')) }}></div>
+                }
             </div>
             <div className={styles.footer}>
                 <div>
-                    <button className={styles[getTaskLabel()] + " btn btn-secondary dropdown-toggle " + styles.status} type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button onClick={handleFooterFunClick} className={styles[getTaskLabel()] + " btn btn-secondary dropdown-toggle " + styles.status} type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {getTaskLabel()}
                     </button>
                     <ul className={"dropdown-menu " + styles.statusMenu}>
                         {status.map((item, index) => {
                             if (item != getTaskLabel()) {
                                 return (
-                                    <li key={index}>
+                                    <li key={index} onClick={handleFooterFunClick}>
                                         <button onClick={() => { handleChangeStatus(item) }} className={"dropdown-item " + styles.statusItem}>
                                             {item}
                                         </button>
@@ -105,7 +126,7 @@ export default function TaskBox(props: { task: any, deleteTask: (number: number)
                     >
                         {timestampToTimeAgo(new Date(task.created_at).getTime())}
                     </div>
-                    <a href={task.user.html_url} title={task.user.login} target="_blank">
+                    <a onClick={handleFooterFunClick} href={task.user.html_url} title={task.user.login} target="_blank">
                         <img className={styles.avatar} src={task.user.avatar_url} />
                     </a>
                 </div>

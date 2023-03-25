@@ -11,8 +11,7 @@
     position: relative;
 }
 
-.title,
-.content {
+.title {
     background: none;
     border: none;
     outline: none;

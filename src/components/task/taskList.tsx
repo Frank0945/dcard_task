@@ -14,6 +14,7 @@ export default function TaskList(props: { reload: number }) {
     const taskListRef: RefObject<HTMLDivElement> = useRef(null);
     const [page, setPage] = useState(1);
     const [isMaxPage, setIsMaxPage] = useState(false);
+    const [editable, setEditable] = useState(0);
     const statusList = ['all', 'open', 'in progress', 'done'];
 
     useEffect(() => {
@@ -166,10 +167,16 @@ export default function TaskList(props: { reload: number }) {
 
     const handleDeleteTask = (number: number) => {
         setTasks(prevTasks => prevTasks.filter(task => task.number != number));
+        if (editable)
+            setEditable(0);
+    }
+    const showTask = (id: number) => {
+        setEditable(id);
     }
 
     return (
         <div className={styles.main}>
+            <div onClick={() => showTask(0)} className={styles.backdrop + (editable ? ` ${styles.show}` : '')}></div>
             <div className={styles.tabs}>
                 <div className={styles.tab}>
                     <button className={"btn btn-secondary dropdown-toggle " + styles.tabBtn} type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -180,7 +187,7 @@ export default function TaskList(props: { reload: number }) {
                         {statusList.map((item, index) => {
                             if (item != getStatus()) {
                                 return (
-                                    <button className="dropdown-item" key={index} onClick={handleChangeStatus(item)}>
+                                    <button className="dropdown-item" key={index} onClick={() => handleChangeStatus(item)}>
                                         {item}
                                     </button>
                                 )
@@ -201,8 +208,12 @@ export default function TaskList(props: { reload: number }) {
             </div>
 
             <div className={styles.taskList} ref={taskListRef}>
-                {tasks.map((task, idx) => {
-                    return <TaskBox key={task.id} task={task} deleteTask={(number) => handleDeleteTask(number)} />
+                {tasks.map((task) => {
+                    return (
+                        <div className={styles.taskBox + (editable == task.number ? ` ${styles.show}` : '')} key={task.id} onClick={() => showTask(task.number)}>
+                            <TaskBox task={task} editable={(editable == task.number) ? true : false} deleteTask={(number) => handleDeleteTask(number)} />
+                        </div>
+                    );
                 })}
                 <div className={styles.loading}>
                     {loading &&
@@ -212,6 +223,6 @@ export default function TaskList(props: { reload: number }) {
                     }
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

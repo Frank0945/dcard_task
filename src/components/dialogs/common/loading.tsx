@@ -9,7 +9,7 @@ export default function Loading() {
         const click = (): void => {
             btnRef.current?.click();
         };
-        
+
         let step: number = 0;
         /**
          * Cause the loading animation needs time to load,
@@ -18,19 +18,21 @@ export default function Loading() {
         const loadingManager = (): void => {
             step++;
             if (step == 2) {
-                step = 0;
                 click();
             }
         };
 
+        const myModalEl = document.getElementById('staticBackdrop');
+
         const loadingController = (): { close: () => void } => {
+            step = 0;
             click();
+
+            myModalEl?.addEventListener('shown.bs.modal', loadingManager);
+
             return { close: loadingManager };
         };
         dialogService.loading = loadingController;
-
-        const myModalEl = document.getElementById('staticBackdrop');
-        myModalEl?.addEventListener('shown.bs.modal', loadingManager);
 
     }, []);
 

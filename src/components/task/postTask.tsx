@@ -3,6 +3,7 @@ import { serverService } from '@/services/serverService';
 import styles from '@/styles/components/task/PostTask.module.css'
 import { useEffect, useRef, useState } from 'react';
 import { useDetectClickOutside } from 'react-detect-click-outside';
+import TaskContentArea from './taskContentArea';
 
 export default function PostTask(props: { onPosted: () => void }) {
 
@@ -11,7 +12,6 @@ export default function PostTask(props: { onPosted: () => void }) {
     const [content, setContent] = useState('');
     const [postDisabled, setPostDisabled] = useState(true);
     const [contentPlaceHolder, setContentPlaceHolder] = useState('');
-    const contentRef = useRef<HTMLTextAreaElement>(null);
     const contentPlaceHolderRef = useRef<HTMLDivElement>(null);
 
     const handleCancelFocus = () => {
@@ -64,12 +64,10 @@ export default function PostTask(props: { onPosted: () => void }) {
         else
             setPostDisabled(true);
 
-        contentRef.current!.style.height = '0';
-        contentRef.current!.style.height = contentRef.current!.scrollHeight + 'px';
     }, [content, title]);
 
-    const handleContentChange = () => {
-        setContent(contentRef.current!.value);
+    const handleContentChange = (content: string) => {
+        setContent(content);
         setFocus(true);
     };
 
@@ -80,7 +78,6 @@ export default function PostTask(props: { onPosted: () => void }) {
     const clearAllInput = () => {
         setTitle('');
         setContent('');
-        contentRef.current!.value = '';
         setFocus(false);
     };
 
@@ -121,13 +118,16 @@ export default function PostTask(props: { onPosted: () => void }) {
             }
 
             <div className={styles.body}>
-                <textarea
-                    ref={contentRef}
+                <div
+                    className='d-flex flex-fill'
                     onClick={() => setFocus(true)}
-                    onChange={handleContentChange}
-                    className={styles.content}
-                    rows={1}
-                />
+                >
+                    <TaskContentArea
+                        editable={true}
+                        content={content}
+                        contentChange={handleContentChange}
+                    />
+                </div>
                 <div ref={contentPlaceHolderRef} className={styles.contentPlaceHolder}>
                     {!content &&
                         <>{contentPlaceHolder}</>

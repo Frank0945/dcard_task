@@ -9,7 +9,7 @@ export default function Login() {
 
     const signInWithGithub = (e: any) => {
         e.preventDefault();
-        signIn("github");
+        signIn();
     }
 
     if (serverService.isLogin)

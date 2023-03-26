@@ -9,9 +9,9 @@ export default function Login() {
 
     const signInWithGithub = (e: any) => {
         e.preventDefault();
-        signIn();
+        signIn("github");
     }
-
+    
     if (serverService.isLogin)
         router.replace('/');
     else

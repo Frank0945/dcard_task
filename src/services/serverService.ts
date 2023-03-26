@@ -23,9 +23,7 @@ class ServerService {
             if (this.session)
                 resolve(true);
 
-            getSession().then((session) => {
-                console.log(session);
-                
+            getSession().then((session) => {                
                 if (session) {
                     this.session = session;
                     resolve(true);

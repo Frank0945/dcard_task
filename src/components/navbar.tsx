@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react'
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image'
 
 export default function Navbar() {
     const router = useRouter();
@@ -43,7 +44,7 @@ export default function Navbar() {
         <nav className={"navbar fixed-top bg-light " + styles.navbar}>
             <div className="container-xxl">
                 <Link className="navbar-brand" href="/">
-                    <img src="/task_logo.svg" alt="task_logo" width={110} />
+                    <Image src="/task_logo.svg" alt="task_logo" width={110} height={41.43} />
                 </Link>
                 <div className={"input-group " + styles.inputBox}>
                     <input onKeyDown={handleKeyDown} onChange={handleSearchQueryChange} value={searchQuery} className={"form-control " + styles.searchInput} type="text" placeholder="Search" aria-label="Example text with two button addons" />

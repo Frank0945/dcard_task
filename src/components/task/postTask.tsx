@@ -101,7 +101,6 @@ export default function PostTask(props: { onPosted: () => void }) {
 
         serverService.task.postTask(title, content).then((res) => {
             clearAllInput();
-            console.log(res);
             props.onPosted();
 
         }).catch((err) => {

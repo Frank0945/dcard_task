@@ -84,8 +84,6 @@ export default function TaskList(props: { reload: number }) {
 
         setLoading(true);
         serverService.task.listTasks(data).then((res) => {
-            console.log(res.items);
-
             if (!isReload)
                 setTasks(prevTasks => [...prevTasks, ...res.items]);
             else

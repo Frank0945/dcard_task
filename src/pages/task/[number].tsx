@@ -15,7 +15,6 @@ export default function TaskPage() {
 
     useEffect(() => {
         serverService.task.getTask(taskNumber).then((res) => {
-            console.log(res);
             setTask(res);
         }).catch((err) => {
             dialogService.error(err.message);

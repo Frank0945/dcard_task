@@ -29,13 +29,13 @@ export default function Navbar() {
         if (searchQuery.trim()) {
             queryParams.set('q', searchQuery.trim());
         }
-        router.push('?' + queryParams.toString());
+        router.push('/?' + queryParams.toString());
     };
 
     const handleClear = () => {
         const queryParams = new URLSearchParams(location.search);
         queryParams.delete('q');
-        router.push('?' + queryParams.toString());
+        router.push('/?' + queryParams.toString());
         setSearchQuery('');
     };
 

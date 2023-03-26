@@ -102,6 +102,12 @@ export default function TaskList(props: { reload: number }) {
 
     useEffect(() => setTasksPosition(), [tasks]);
 
+    useEffect(() => {
+        if (!editable)
+            setTasksPosition();
+
+    }, [editable])
+
     const getOrder = (): string => {
         const queryParams = new URLSearchParams(location.search);
         const order = queryParams.get('order');
@@ -117,9 +123,12 @@ export default function TaskList(props: { reload: number }) {
     }
 
     const setTasksPosition = () => {
+
+        const current: any = taskListRef.current;
+        if (!current) return;
+
         const taskWidth = 310;
         const gap = 15;
-        const current: any = taskListRef.current;
         const containerWidth = current.offsetWidth;
         const children = current.children;
         const row = Math.floor(containerWidth / (taskWidth + gap));
@@ -167,16 +176,20 @@ export default function TaskList(props: { reload: number }) {
 
     const handleDeleteTask = (number: number) => {
         setTasks(prevTasks => prevTasks.filter(task => task.number != number));
-        if (editable)
-            setEditable(0);
+        unShowTask();
     }
     const showTask = (id: number) => {
-        setEditable(id);
+        if (!editable)
+            setEditable(id);
+    }
+
+    const unShowTask = () => {
+        setEditable(0);
     }
 
     return (
         <div className={styles.main}>
-            <div onClick={() => showTask(0)} className={styles.backdrop + (editable ? ` ${styles.show}` : '')}></div>
+            <div className={styles.backdrop + (editable ? ` ${styles.show}` : '')}></div>
             <div className={styles.tabs}>
                 <div className={styles.tab}>
                     <button className={"btn btn-secondary dropdown-toggle " + styles.tabBtn} type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -187,7 +200,7 @@ export default function TaskList(props: { reload: number }) {
                         {statusList.map((item, index) => {
                             if (item != getStatus()) {
                                 return (
-                                    <button className="dropdown-item" key={index} onClick={() => handleChangeStatus(item)}>
+                                    <button className="dropdown-item" key={index} onClick={handleChangeStatus(item)}>
                                         {item}
                                     </button>
                                 )
@@ -211,7 +224,12 @@ export default function TaskList(props: { reload: number }) {
                 {tasks.map((task) => {
                     return (
                         <div className={styles.taskBox + (editable == task.number ? ` ${styles.show}` : '')} key={task.id} onClick={() => showTask(task.number)}>
-                            <TaskBox task={task} editable={(editable == task.number) ? true : false} deleteTask={(number) => handleDeleteTask(number)} />
+                            <TaskBox
+                                task={task}
+                                editable={(editable == task.number) ? true : false}
+                                deleteTask={(number) => handleDeleteTask(number)}
+                                taskChange={unShowTask}
+                            />
                         </div>
                     );
                 })}

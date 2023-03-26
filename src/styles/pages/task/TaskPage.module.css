@@ -4,5 +4,11 @@
     align-items: center;
     padding: 6rem;
     padding-top: 6.5rem;
+    padding-bottom: 2rem;
     min-height: 100vh;
+}
+
+.main .taskBox {
+    width: 100%;
+    max-width: 1000px;
 }

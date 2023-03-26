@@ -18,12 +18,14 @@
     color: var(--color-text-default);
     width: 100%;
     resize: none;
-}
-
-.title {
+    margin-bottom: 10px;
     font-size: large;
     font-weight: bold;
     margin-bottom: 12px;
+}
+
+.content textarea {
+    min-height: unset !important;
 }
 
 .contentPlaceHolder {
@@ -47,16 +49,13 @@
     margin-top: 15px;
 }
 
-.footer button:last-child {
-    margin-left: 10px;
-}
-
 .cancelBtn {
     border: none;
     background: none !important;
-    color: var(--color-text-semi-light);
+    color: var(--color-text-semi-light) !important;
+    margin-right: 10px;
 }
 
 .cancelBtn:hover {
-    color: var(--color-text-default);
+    color: var(--color-text-default) !important;
 }

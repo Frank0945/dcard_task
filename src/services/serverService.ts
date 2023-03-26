@@ -24,6 +24,8 @@ class ServerService {
                 resolve(true);
 
             getSession().then((session) => {
+                console.log(session);
+                
                 if (session) {
                     this.session = session;
                     resolve(true);

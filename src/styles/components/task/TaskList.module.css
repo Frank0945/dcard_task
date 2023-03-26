@@ -13,27 +13,30 @@
 }
 
 .taskBox {
-    min-height: 130px;
     width: 310px;
     opacity: 0;
-    transition: .2s;
+    transition: transform .2s, opacity .2s, z-index .2s;
     position: absolute;
 }
 
 .taskBox.show {
+    transition: width .2s, height .2s;
     width: 60%;
     max-width: 550px;
-    height: 70vh;
     z-index: 1030 !important;
-    transform: translate(50%, -50%) !important;
-    position: fixed;
     top: 50%;
     right: 50%;
+    transform: translate(50%, -50%) !important;
+    position: fixed;
     overflow: hidden;
 }
 
 html:has(.taskBox.show) {
     overflow: hidden;
+}
+
+body:has(.taskBox.show) {
+    padding-right: 10px;
 }
 
 .loading {
@@ -49,16 +52,17 @@ html:has(.taskBox.show) {
     width: 100%;
     height: 100%;
     position: fixed;
-    top: 0;
+    z-index: 1030;
     right: 0;
+    top: 0;
     background: rgb(0, 0, 0, .65);
-    z-index: -1;
     opacity: 0;
-    transition: opacity .2s;
+    transition: .2s;
+    pointer-events: none;
 }
 
 .backdrop.show {
-    z-index: 1030;
+    pointer-events: all;
     opacity: 1;
 }
 

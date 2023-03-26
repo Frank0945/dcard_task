@@ -22,15 +22,28 @@ export class TaskService extends AbstractSubService {
         });
     }
 
-    public changeTaskStatus(
+    public updateTask(
         id: number,
-        status: IListTask["label"]
+        data: {
+            status?: IListTask["label"],
+            title?: string,
+            content?: string
+        }
     ): Promise<any> {
         return new Promise<any>((resolve, reject) => {
+
+            const updateData: any = {};
+            if (data.status)
+                updateData.labels = [data.status];
+            if (data.title)
+                updateData.title = data.title;
+            if (data.content)
+                updateData.body = data.content;
+
             this.githubApi(
                 `/repos/${this.repo}/issues/` + id,
                 'post',
-                { labels: [status] }
+                updateData
             ).then((response) => {
                 resolve(response.data);
             }).catch((error) => {
@@ -45,6 +58,19 @@ export class TaskService extends AbstractSubService {
                 `/repos/${this.repo}/issues/` + id,
                 'post',
                 { state: "closed" }
+            ).then((response) => {
+                resolve(response.data);
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    public getTask(number: number): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.githubApi(
+                `/repos/${this.repo}/issues/` + number,
+                'get'
             ).then((response) => {
                 resolve(response.data);
             }).catch((error) => {

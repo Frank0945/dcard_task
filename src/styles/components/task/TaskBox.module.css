@@ -32,6 +32,16 @@
     overflow: hidden;
 }
 
+.body {
+    overflow-y: auto;
+    max-height: calc(80vh - 100px);
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+    box-shadow: inset 0px -2px 5px rgba(0, 0, 0, 0.2), inset 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 .title,
 .content {
     background: none;
@@ -46,10 +56,16 @@
 .title {
     font-size: large;
     font-weight: bold;
-    margin-bottom: 5px;
-    padding-right: .5rem;
+    padding-left: 0.5rem;
+    padding-right: 1rem;
     -webkit-line-clamp: 2;
     overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.taskBox.readOnly .title {
+    padding-left: 0;
+    padding-right: 0.5rem;
 }
 
 .taskBox.readOnly .content {
@@ -89,13 +105,28 @@
 
 .footer {
     margin-top: auto;
-    padding-top: 20px;
+    padding-top: 12px;
     display: flex;
     width: 100%;
     align-items: end;
     justify-content: space-between;
     font-size: 14px;
     color: var(--color-text-semi-light);
+}
+
+.taskBox.readOnly .footer {
+    padding-top: 20px;
+}
+
+.cancelBtn {
+    border: none;
+    background: none !important;
+    color: var(--color-text-semi-light) !important;
+    margin-right: 10px;
+}
+
+.cancelBtn:hover {
+    color: var(--color-text-default) !important;
 }
 
 .status {
@@ -124,6 +155,11 @@
 
 .status:hover {
     border-color: var(--color-light);
+}
+
+.author {
+    font-size: 14px;
+    color: var(--color-text-semi-light);
 }
 
 .readOnly .author {

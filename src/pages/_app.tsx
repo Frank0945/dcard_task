@@ -5,9 +5,9 @@ import type { AppProps } from 'next/app'
 import { SessionProvider } from "next-auth/react"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { serverService } from '@/services/serverService'
 import DialogController from "@/components/dialogs/dialogs"
 import Navbar from "@/components/navbar"
+import { serverService } from "@/services/serverService"
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
@@ -18,6 +18,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
+    console.log(session);
     serverService.init().then((status) => {
       setIsLogin(status);
       if (!status)

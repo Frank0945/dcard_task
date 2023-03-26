@@ -43,7 +43,8 @@ export default function PostTask(props: { onPosted: () => void }) {
                     idx = 0;
                 setContentPlaceHolder(placeHolders[idx]);
                 idx++;
-                contentPlaceHolderRef.current!.style.animationName = 'typing';
+                if (contentPlaceHolderRef.current)
+                    contentPlaceHolderRef.current.style.animationName = 'typing';
             };
             interval = setInterval(() => {
                 choosePlaceHolder();
@@ -119,7 +120,7 @@ export default function PostTask(props: { onPosted: () => void }) {
 
             <div className={styles.body}>
                 <div
-                    className='d-flex flex-fill'
+                    className={'d-flex flex-fill ' + styles.content}
                     onClick={() => setFocus(true)}
                 >
                     <TaskContentArea

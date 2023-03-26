@@ -2,7 +2,7 @@ import { dialogService } from "@/services/dialogService";
 import { IConfirm } from "@/types/dialogsTypes";
 import { useEffect, useRef, useState } from "react";
 
-export default function confirm() {
+export default function Confirm() {
     const openBtnRef = useRef<HTMLButtonElement>(null);
     const cancelBtnRef = useRef<HTMLButtonElement>(null);
     const confirmBtnRef = useRef<HTMLButtonElement>(null);

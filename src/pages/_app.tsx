@@ -18,7 +18,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
-    console.log(session);
     serverService.init().then((status) => {
       setIsLogin(status);
       if (!status)

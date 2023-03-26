@@ -7,6 +7,11 @@ import { useRouter } from 'next/router'
 export default function Login() {
     const router = useRouter();
 
+    const signInWithGithub = (e: any) => {
+        e.preventDefault();
+        signIn("github");
+    }
+
     if (serverService.isLogin)
         router.replace('/');
     else
@@ -28,7 +33,7 @@ export default function Login() {
                                 <div className={styles.title}>Nice to meet you!</div>
                                 <div className={styles.subtitle}>You must be logged in to access this service.</div>
                             </div>
-                            <button type="button" className={"btn btn-dark " + styles.loginBtn} onClick={() => signIn("github")}>
+                            <button type="button" className={"btn btn-dark " + styles.loginBtn} onClick={signInWithGithub}>
                                 <i className="bi bi-github"></i>Sign in with Github
                             </button>
                         </div>

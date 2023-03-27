@@ -27,7 +27,10 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   return (
     <SessionProvider session={session} >
-      <Status />
+      <Status>
+      </Status>
+      <Component {...pageProps} />
+      <DialogController />
     </SessionProvider >
   )
   /* useEffect(() => {
@@ -51,17 +54,15 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
    );*/
 }
 
-function Status({ Component, pageProps }: any) {
+function Status({ children }: any) {
   const session = useSession();
-  if (session.status === "loading") {
-    return <>Loading</>
-  }
   console.log(session);
   serverService.session = session.data;
-  return (
-    <>
-      <Component {...pageProps} />
-      <DialogController />
-    </>
-  )
+  if (session.status === "loading") {
+    return <>Loading</>
+  } else if (session.status === "unauthenticated") {
+    return <>Unauthenticated</>
+  } else {
+    return <>Authenticated</>
+  }
 }

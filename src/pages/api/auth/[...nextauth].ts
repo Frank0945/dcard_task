@@ -24,7 +24,6 @@ export default NextAuth({
             return token;
         },
         async session({ session, token }) {
-            console.log("NEXTAUTH_URL", process.env.NEXTAUTH_URL);
             session.accessToken = token.accessToken as string;
             return session;
         }

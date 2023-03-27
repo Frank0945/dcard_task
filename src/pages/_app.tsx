@@ -18,19 +18,19 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
-    serverService.init().then((status) => {
+    /*serverService.init().then((status) => {
       setIsLogin(status);
       if (!status)
         router.replace("/login")
-    });
+    });*/
   }, []);
 
-  if (isLogin || isLoginPage)
-    return (
-      <SessionProvider session={session}>
-        {!isLoginPage && <Navbar />}
-        <Component {...pageProps} />
-        <DialogController />
-      </SessionProvider>
-    );
+  // if (isLogin || isLoginPage)
+  return (
+    <SessionProvider session={session}>
+      {/* {!isLoginPage && <Navbar />} */}
+      <Component {...pageProps} />
+      <DialogController />
+    </SessionProvider>
+  );
 }

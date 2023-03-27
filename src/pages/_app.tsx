@@ -24,20 +24,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   }, []);
 
 
-  function Status({ children }: any) {
-    const session = useSession();
-    if (session.status === "loading") {
-      return <>Loading</>
-    }
-    serverService.session = session.data;
-    return (
-      <>
-        {!isLoginPage && <Navbar />}
-        <Component {...pageProps} />
-        <DialogController />
-      </>
-    )
-  }
 
   return (
     <SessionProvider session={session} >
@@ -63,4 +49,19 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
        <DialogController />
      </SessionProvider>
    );*/
+}
+
+function Status({ Component, pageProps }: any) {
+  const session = useSession();
+  if (session.status === "loading") {
+    return <>Loading</>
+  }
+  console.log(session);
+  serverService.session = session.data;
+  return (
+    <>
+      <Component {...pageProps} />
+      <DialogController />
+    </>
+  )
 }

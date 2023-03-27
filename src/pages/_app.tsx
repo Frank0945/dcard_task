@@ -16,24 +16,32 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   const isLoginPage = router.pathname == "/login";
 
+  const [sessionData, setSessionData] = useState(null);
+
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
-    serverService.init().then((status) => {
-      setIsLogin(status);
 
-    });
-    /*console.log(session);
-    serverService.session = session;*/
+    async function getSessionData() {
+      // 获取会话信息
+      const res = await fetch('/api/auth/session');
+      const sessionData = await res.json();
+
+      // 存储会话信息
+      setSessionData(sessionData);
+      serverService.session = sessionData;
+      localStorage.setItem('sessionData', JSON.stringify(sessionData));
+    }
+
+    getSessionData();
   }, []);
 
-
-  if (isLogin || isLoginPage)
-    return (
-      <SessionProvider session={session} >
-        <Component {...pageProps} />
-        <DialogController />
-      </SessionProvider >
-    )
+  return (
+    <SessionProvider session={sessionData} >
+      {!isLoginPage && <Navbar />}
+      <Component {...pageProps} />
+      <DialogController />
+    </SessionProvider >
+  )
   /* useEffect(() => {
      console.log(session);
      serverService.session = session;

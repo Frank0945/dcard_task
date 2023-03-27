@@ -4,12 +4,11 @@ import PostTask from '@/components/task/postTask'
 import TaskList from '@/components/task/taskList'
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { serverService } from '@/services/serverService';
 
 export default function Home() {
 
   const [reload, setReload] = useState(0);
-
-  const session = useSession();
 
   const handlePosted = () => {
     setReload(reload + 1);
@@ -21,12 +20,9 @@ export default function Home() {
         <title>Task</title>
       </Head>
       <main className={styles.main}>
-        {session.data ?
-          <>
-            <PostTask onPosted={handlePosted} />
-            <TaskList reload={reload} />
-          </> : <div>Not logged in</div>
-        }
+        {serverService.session?.accessToken}
+        <PostTask onPosted={handlePosted} />
+        <TaskList reload={reload} />
       </main>
     </>
   )

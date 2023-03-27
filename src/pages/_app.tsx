@@ -21,22 +21,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
 
-    async function getSessionData() {
-      // 获取会话信息
-      const res = await fetch('/api/auth/session');
-      const sessionData = await res.json();
 
-      // 存储会话信息
-      setSessionData(sessionData);
-      serverService.session = sessionData;
-      localStorage.setItem('sessionData', JSON.stringify(sessionData));
-    }
-
-    getSessionData();
   }, []);
 
   return (
-    <SessionProvider session={sessionData} >
+    <SessionProvider session={session} >
       {!isLoginPage && <Navbar />}
       <Component {...pageProps} />
       <DialogController />
@@ -62,7 +51,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
      </SessionProvider>
    );*/
 }
-
+/*
 function Status({ children }: any) {
   const session = useSession();
   console.log(session);
@@ -75,3 +64,4 @@ function Status({ children }: any) {
     return <>Authenticated</>
   }
 }
+*/

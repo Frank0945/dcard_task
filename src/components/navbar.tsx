@@ -11,7 +11,7 @@ export default function Navbar() {
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     useEffect(() => {
-        const q = router.query.order as string;
+        const q = router.query.q as string;
         if (q) setSearchQuery(q);
     }, [router.query.q]);
 

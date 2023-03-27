@@ -18,19 +18,22 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
+    serverService.init().then((status) => {
+      setIsLogin(status);
 
+    });
     /*console.log(session);
     serverService.session = session;*/
   }, []);
 
 
-
-  return (
-    <SessionProvider session={session} >
-      <Component {...pageProps} />
-      <DialogController />
-    </SessionProvider >
-  )
+  if (isLogin || isLoginPage)
+    return (
+      <SessionProvider session={session} >
+        <Component {...pageProps} />
+        <DialogController />
+      </SessionProvider >
+    )
   /* useEffect(() => {
      console.log(session);
      serverService.session = session;

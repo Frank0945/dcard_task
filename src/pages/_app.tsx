@@ -28,7 +28,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   if (isLogin || isLoginPage)
     return (
       <SessionProvider session={session}>
-        {!isLoginPage && <Navbar />}
+        {/*!isLoginPage && <Navbar />*/}
         <Component {...pageProps} />
         <DialogController />
       </SessionProvider>

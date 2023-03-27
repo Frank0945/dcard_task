@@ -8,7 +8,6 @@ import { useSession } from 'next-auth/react';
 export default function Home() {
 
   const [reload, setReload] = useState(0);
-  const session = useSession();
 
   const handlePosted = () => {
     setReload(reload + 1);
@@ -20,13 +19,8 @@ export default function Home() {
         <title>Task</title>
       </Head>
       <main className={styles.main}>
-        {session.data ?
-          <>
-          {session.data.accessToken}
-            <PostTask onPosted={handlePosted} />
-            <TaskList reload={reload} />
-          </> : <div>Not logged in</div>
-        }
+        <PostTask onPosted={handlePosted} />
+        <TaskList reload={reload} />
       </main>
     </>
   )

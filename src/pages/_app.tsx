@@ -16,32 +16,49 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   const isLoginPage = router.pathname == "/login";
 
+
+  const [sessionData, setSessionData] = useState(null);
+
   useEffect(() => {
-    console.log(session);
-    serverService.session = session;
-    require("bootstrap/dist/js/bootstrap.bundle.min.js");
-    /*serverService.init().then((status) => {
-      setIsLogin(status);
-      if (!status)
-        router.replace("/login")
-    });*/
+    async function getSessionData() {
+      // 获取会话信息
+      const res = await fetch('/api/auth/session');
+      const sessionData = await res.json();
+
+      serverService.session = sessionData;
+
+      // 存储会话信息
+      setSessionData(sessionData);
+      localStorage.setItem('sessionData', JSON.stringify(sessionData));
+    }
+
+    getSessionData();
   }, []);
 
-  //if (isLogin || isLoginPage)
   return (
-    <SessionProvider session={session}>
+    < SessionProvider session={session} >
       {!isLoginPage && <Navbar />}
       <Component {...pageProps} />
       <DialogController />
-    </SessionProvider>
-  );
-}
-
-App.getInitialProps = async ({ Component, ctx }: any) => {
-  const pageProps = {
-    ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
-    session: await getSession(ctx),
-  }
-
-  return { pageProps }
+    </SessionProvider >
+  )
+  /* useEffect(() => {
+     console.log(session);
+     serverService.session = session;
+     require("bootstrap/dist/js/bootstrap.bundle.min.js");
+     /*serverService.init().then((status) => {
+       setIsLogin(status);
+       if (!status)
+         router.replace("/login")
+     });
+   }, []);
+ 
+   //if (isLogin || isLoginPage)
+   return (
+     <SessionProvider session={session}>
+       {!isLoginPage && <Navbar />}
+       <Component {...pageProps} />
+       <DialogController />
+     </SessionProvider>
+   );*/
 }

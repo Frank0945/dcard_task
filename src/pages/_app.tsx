@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-icons/font/bootstrap-icons.css"
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { SessionProvider } from "next-auth/react"
+import { getSession, SessionProvider } from "next-auth/react"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import DialogController from "@/components/dialogs/dialogs"
@@ -17,6 +17,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   const isLoginPage = router.pathname == "/login";
 
   useEffect(() => {
+    console.log(session);
+    serverService.session = session;
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
     /*serverService.init().then((status) => {
       setIsLogin(status);
@@ -33,4 +35,13 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       <DialogController />
     </SessionProvider>
   );
+}
+
+App.getInitialProps = async ({ Component, ctx }: any) => {
+  const pageProps = {
+    ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
+    session: await getSession(ctx),
+  }
+
+  return { pageProps }
 }

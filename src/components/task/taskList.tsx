@@ -107,15 +107,13 @@ export default function TaskList(props: { reload: number }) {
     }, [editable])
 
     const getOrder = (): string => {
-        const queryParams = new URLSearchParams(location.search);
-        const order = queryParams.get('order');
+        const order = router.query.order as string;
         if (!order) return 'desc';
         return order;
     }
 
     const getStatus = (): string => {
-        const queryParams = new URLSearchParams(location.search);
-        const status = queryParams.get('status');
+        const status = router.query.status as string;
         if (!status) return statusList[0];
         return status;
     }

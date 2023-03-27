@@ -7,7 +7,7 @@ import axios from "axios";
 class ServerService {
     public user: UserService = new UserService();
     public task: TaskService = new TaskService();
-    private session: Session | null = null;
+    public session: Session | null = null;
 
     private hostTime: number = Date.now();
     private localStartTime: number = Date.now();

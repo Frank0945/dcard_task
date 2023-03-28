@@ -29,7 +29,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   const Layout = ({ children }: any) => {
     const session = useSession();
     if (session.status == 'loading') {
-      return <>"skeleton UI"</>
+      return <>skeleton UI</>
     } else if (session.status == 'unauthenticated') {
       return <Component {...pageProps} />
     }

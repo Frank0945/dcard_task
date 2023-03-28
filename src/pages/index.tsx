@@ -18,8 +18,6 @@ export default function Home() {
  */
 
   useEffect(() => {
-    console.log(serverService.session);
-    console.log("serverService.session");
   }, []);
   const handlePosted = () => {
     setReload(reload + 1);

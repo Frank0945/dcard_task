@@ -3,13 +3,12 @@ import { Session } from "next-auth";
 import { getSession } from 'next-auth/react'
 import { TaskService } from "./taskService";
 import axios from "axios";
-
 class ServerService {
 
-    public session: Session | null = null;
     public user: UserService = new UserService();
     public task: TaskService = new TaskService();
 
+    public session: Session | null = null;
     private hostTime: number = Date.now();
     private localStartTime: number = Date.now();
 
@@ -19,12 +18,13 @@ class ServerService {
         });
     }
 
+
     public init(): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             if (this.session)
                 resolve(true);
 
-            getSession().then((session) => {                
+            getSession().then((session) => {
                 if (session) {
                     this.session = session;
                     resolve(true);

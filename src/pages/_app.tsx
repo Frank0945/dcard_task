@@ -25,31 +25,34 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     });*/
   }, []);
 
-  const Layout = ({ children }: any) => {
-    const session = useSession();
-    if (session.status === "loading") {
-      return <>Loading</>
-    } else if (session.status === "unauthenticated") {
-      return <>not logged in</>
-    }
-    if (session.data) {
-      //serverService.session = session.data;
-      setIsLogin(true);
-      return <>{session.data.accessToken}</>;
-    }
-    return null;
-  }
 
   // if (isLogin || isLoginPage)
   return (
     <SessionProvider session={session}>
       <Layout>
       </Layout>
-      {isLogin || isLoginPage &&
-        <Component {...pageProps} />
+      {isLogin &&
+        <>
+          <Navbar />
+          <DialogController />
+        </>
       }
+      <Component {...pageProps} />
     </SessionProvider>
   );
+}
+const Layout = ({ children }: any) => {
+  const session = useSession();
+  if (session.status === "loading") {
+    return <>Loading</>
+  } else if (session.status === "unauthenticated") {
+    return <>not logged in</>
+  }
+  if (session.data) {
+    serverService.session = session.data;
+    return <>{session.data.accessToken}</>;
+  }
+  return null;
 }
 
 

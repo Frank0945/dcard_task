@@ -37,7 +37,17 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 }
 
 
-const Layout = ({ children }: any) => {
+function Layout({ children }: any) {
+  const session = useSession();
+  if (session.status === "loading") {
+    return <>skeleton UI</>
+  } else if (session.status === "unauthenticated") {
+    return <>not logged in</>
+  }
+  return <>UI using session.data</>
+}
+
+/*const Layout = ({ children }: any) => {
   const session = useSession();
 
   const [isLogin, setIsLogin] = useState(false);
@@ -60,4 +70,4 @@ const Layout = ({ children }: any) => {
       }
     </>
   );
-}
+}*/

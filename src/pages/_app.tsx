@@ -37,7 +37,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 }
 
 
-function Layout({ children }: any) {
+const Layout = ({ children }: any) => {
   const session = useSession();
   if (session.status === "loading") {
     return <>skeleton UI</>

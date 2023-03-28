@@ -8,7 +8,7 @@ class ServerService {
     public user: UserService = new UserService();
     public task: TaskService = new TaskService();
 
-    public session: Session | null = null;
+    private session: Session | null = null;
     private hostTime: number = Date.now();
     private localStartTime: number = Date.now();
 
@@ -18,31 +18,15 @@ class ServerService {
         });
     }
 
-
-    public init(): Promise<boolean> {
-        return new Promise<boolean>((resolve) => {
-            if (this.session)
-                resolve(true);
-
-            getSession().then((session) => {
-                if (session) {
-                    this.session = session;
-                    resolve(true);
-                }
-                resolve(false);
-            });
-        });
-    }
-
-    public get isLogin(): boolean {
-        return this.session ? true : false;
+    public setSession(session: Session): void {
+        this.session = session;
     }
 
     public get serverTime(): number {
         return this.hostTime + Date.now() - this.localStartTime;
     }
 
-    private get savedSession(): Session | null {
+    private get getSession(): Session | null {
         return this.session;
     }
 

@@ -3,7 +3,7 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { SessionProvider, useSession } from "next-auth/react"
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import DialogController from "@/components/dialogs/dialogs"
 import Navbar from "@/components/navbar"
@@ -11,74 +11,42 @@ import { serverService } from "@/services/serverService"
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
-  const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
-
-  const isLoginPage = router.pathname == '/login';
-
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
-    /*serverService.init().then((status) => {
-      setIsLogin(status);
-      if (!status)
-        router.replace("/login")
-    });*/
   }, []);
 
-
-  // if (isLogin || isLoginPage)
   return (
     <SessionProvider session={session}>
-      <Layout>
-      </Layout>
-      {isLogin &&
-        <>
-          <Navbar />
-          <DialogController />
-        </>
-      }
+      <Main />
       <Component {...pageProps} />
     </SessionProvider>
   );
 }
-const Layout = ({ children }: any) => {
+
+const Main = () => {
+
+  const router = useRouter();
+  const isLoginPage = router.pathname == '/login';
   const session = useSession();
-  if (session.status === "loading") {
-    return <>Loading</>
-  } else if (session.status === "unauthenticated") {
-    return <>not logged in</>
+
+  if (session.status === "loading")
+    return <div className="loading"/>
+
+  if (session.status === "unauthenticated" && !isLoginPage) {
+    router.replace("/login");
   }
-  if (session.data) {
-    serverService.session = session.data;
-    return <>{session.data.accessToken}</>;
+
+  if (session.data && isLoginPage) {
+    serverService.setSession(session.data);
+    router.replace("/");
   }
+
+  if (!isLoginPage)
+    return (
+      <>
+        <Navbar />
+        <DialogController />
+      </>
+    );
   return null;
 }
-
-
-
-
-/*const Layout = ({ children }: any) => {
-  const session = useSession();
-
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    if (session.data) {
-      serverService.session = session.data;
-      setIsLogin(true);
-    }
-
-  }, [session]);
-
-  return (
-    <>
-      {isLogin &&
-        <>
-          <Navbar />
-          <DialogController />
-        </>
-      }
-    </>
-  );
-}*/

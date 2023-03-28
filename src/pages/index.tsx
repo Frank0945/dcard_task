@@ -22,9 +22,9 @@ export default function Home() {
         <title>Task</title>
       </Head>
       <main className={styles.main}>
-        {session ? session.data?.accessToken : "no session"}
-        {/* <PostTask onPosted={handlePosted} />
-        <TaskList reload={reload} /> */}
+        {session.data ? session.data.accessToken
+          : <div>Not logged in</div>
+        }
       </main>
     </>
   )

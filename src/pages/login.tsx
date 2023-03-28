@@ -12,9 +12,9 @@ export default function Login() {
         signIn("github");
     }
     
-    // if (serverService.isLogin)
-    //     router.replace('/');
-    // else
+    if (serverService.isLogin)
+        router.replace('/');
+    else
         return (
             <>
                 <Head>

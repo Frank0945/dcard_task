@@ -33,8 +33,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       return <>not logged in</>
     }
     if (session.data) {
-      setIsLogin(true);
       serverService.session = session.data;
+      setIsLogin(true);
       return <>{serverService.session.accessToken}</>;
     }
     return null;

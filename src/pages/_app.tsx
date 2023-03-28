@@ -26,41 +26,38 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   }, []);
 
 
-  const Layout = ({ children }: any) => {
-    const session = useSession();
-
-    const [isLogin, setIsLogin] = useState(false);
-
-    useEffect(() => {
-      if (session.data) {
-        serverService.session = session.data;
-        setIsLogin(true);
-      }
-
-    }, [session]);
-
-    return (
-      <>
-        {
-          (isLogin || isLoginPage) &&
-          <Component {...pageProps} />
-        }
-        {isLogin &&
-          <>
-            <Navbar />
-            <DialogController />
-          </>
-        }
-      </>
-    );
-  }
-
-
   // if (isLogin || isLoginPage)
   return (
     <SessionProvider session={session}>
       <Layout>
       </Layout>
+      <Component {...pageProps} />
     </SessionProvider>
+  );
+}
+
+
+const Layout = ({ children }: any) => {
+  const session = useSession();
+
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if (session.data) {
+      serverService.session = session.data;
+      setIsLogin(true);
+    }
+
+  }, [session]);
+
+  return (
+    <>
+      {isLogin &&
+        <>
+          <Navbar />
+          <DialogController />
+        </>
+      }
+    </>
   );
 }

@@ -32,6 +32,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     } else if (session.status === "unauthenticated") {
       return <>not logged in</>
     }
+    setIsLogin(true);
+    serverService.session = session.data;
     return <>UI using session.data</>
   }
 
@@ -40,6 +42,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <SessionProvider session={session}>
       <Layout>
       </Layout>
+      {isLogin &&
+        <>
+          <Navbar />
+          <DialogController />
+        </>
+      }
       <Component {...pageProps} />
     </SessionProvider>
   );

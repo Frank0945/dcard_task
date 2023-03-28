@@ -32,9 +32,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     } else if (session.status === "unauthenticated") {
       return <>not logged in</>
     }
-    setIsLogin(true);
-    serverService.session = session.data;
-    return <>UI using session.data</>
+    if (session.data) {
+      console.log(session.data);
+      serverService.session = session.data;
+      setIsLogin(true);
+    }
+    return null;
   }
 
   // if (isLogin || isLoginPage)

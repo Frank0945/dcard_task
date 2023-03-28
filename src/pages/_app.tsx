@@ -19,10 +19,10 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   return (
     <SessionProvider session={session}>
-      <Main show={() => setShow(true)} />
       {show &&
         <Component {...pageProps} />
       }
+      <Main show={() => setShow(true)} />
     </SessionProvider>
   );
 }

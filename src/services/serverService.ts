@@ -1,8 +1,8 @@
 import { UserService } from "./userService";
 import { Session } from "next-auth";
-import { getSession } from 'next-auth/react'
 import { TaskService } from "./taskService";
 import axios from "axios";
+import { axiosInstance } from "@/pages/api/axios";
 class ServerService {
 
     public user: UserService = new UserService();
@@ -42,7 +42,7 @@ class ServerService {
     private getHostTime(): Promise<number> {
         return new Promise<number>((resolve) => {
             //const severUrl = 'https://dcard-task.vercel.app';
-            axios.get('/api/time').then((res: any) => {
+            axiosInstance.get('/api/time').then((res: any) => {
                 resolve(res.data.hostTime);
             });
         });

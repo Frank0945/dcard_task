@@ -45,8 +45,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <SessionProvider session={session}>
       <Layout>
       </Layout>
-
-      <Component {...pageProps} />
+      {isLogin || isLoginPage &&
+        <Component {...pageProps} />
+      }
     </SessionProvider>
   );
 }

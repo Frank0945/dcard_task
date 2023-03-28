@@ -14,7 +14,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
 
-  const isLoginPage = router.pathname == "/login";
+  const isLoginPage = router.pathname == '/login';
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
@@ -28,9 +28,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   const Layout = ({ children }: any) => {
     const session = useSession();
-    if (session.status === 'loading') {
+    if (session.status == 'loading') {
       return <>"skeleton UI"</>
-    } else if (session.status === 'unauthenticated') {
+    } else if (session.status == 'unauthenticated') {
       return <Component {...pageProps} />
     }
     serverService.session = session.data;

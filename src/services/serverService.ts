@@ -57,7 +57,7 @@ class ServerService {
 
     private getHostTime(): Promise<number> {
         return new Promise<number>((resolve) => {
-            axios.get('/api/time').then((res: any) => {
+            axios.get('https://dcard-task.vercel.app/api/time').then((res: any) => {
                 resolve(res.data.hostTime);
             });
         });

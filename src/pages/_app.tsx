@@ -28,14 +28,14 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   const Layout = ({ children }: any) => {
     const session = useSession();
     if (session.status === "loading") {
-      return <>skeleton UI</>
+      return <>Loading</>
     } else if (session.status === "unauthenticated") {
       return <>not logged in</>
     }
     if (session.data) {
-      serverService.session = session.data;
+      //serverService.session = session.data;
       setIsLogin(true);
-      return <>{serverService.session.accessToken}</>;
+      return <>{session.data.accessToken}</>;
     }
     return null;
   }

@@ -5,9 +5,10 @@ import { TaskService } from "./taskService";
 import axios from "axios";
 
 class ServerService {
+
+    public session: Session | null = null;
     public user: UserService = new UserService();
     public task: TaskService = new TaskService();
-    public session: Session | null = null;
 
     private hostTime: number = Date.now();
     private localStartTime: number = Date.now();

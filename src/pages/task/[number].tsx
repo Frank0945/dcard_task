@@ -14,13 +14,14 @@ export default function TaskPage() {
     const [task, setTask] = useState<any>(null);
 
     useEffect(() => {
-        serverService.task.getTask(taskNumber).then((res) => {
-            setTask(res);
-        }).catch((err) => {
-            dialogService.error(err.message);
-        }).finally(() => {
-            setLoading(false);
-        });
+        if (taskNumber)
+            serverService.task.getTask(taskNumber).then((res) => {
+                setTask(res);
+            }).catch((err) => {
+                dialogService.error(err.message);
+            }).finally(() => {
+                setLoading(false);
+            });
     }, [])
 
     const handleDeleteTask = (number: number) => {

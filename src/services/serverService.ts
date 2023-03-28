@@ -41,8 +41,8 @@ class ServerService {
 
     private getHostTime(): Promise<number> {
         return new Promise<number>((resolve) => {
-            const severUrl = typeof window === 'undefined' ? 'https://dcard-task.vercel.app' : 'http://localhost:3000';
-            axios.get(severUrl + '/api/time').then((res: any) => {
+            //const severUrl = 'https://dcard-task.vercel.app';
+            axios.get('/api/time').then((res: any) => {
                 resolve(res.data.hostTime);
             });
         });

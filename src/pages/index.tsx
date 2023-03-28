@@ -16,6 +16,11 @@ export default function Home() {
        serverService.session = session.data;
    }, [session]);
  */
+
+  useEffect(() => {
+    console.log(serverService.session);
+    console.log("serverService.session");
+  }, []);
   const handlePosted = () => {
     setReload(reload + 1);
   };

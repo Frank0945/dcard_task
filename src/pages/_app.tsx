@@ -28,17 +28,29 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   const Layout = ({ children }: any) => {
     const session = useSession();
-    if (session.status == 'loading') {
-      return <>skeleton UI</>
-    } else if (session.status == 'unauthenticated') {
-      return <Component {...pageProps} />
-    }
-    serverService.session = session.data;
+
+    const [isLogin, setIsLogin] = useState(false);
+
+    useEffect(() => {
+      if (session.data) {
+        serverService.session = session.data;
+        setIsLogin(true);
+      }
+
+    }, [session]);
+
     return (
       <>
-        {!isLoginPage && <Navbar />}
-        <Component {...pageProps} />
-        <DialogController />
+        {
+          (isLogin || isLoginPage) &&
+          <Component {...pageProps} />
+        }
+        {isLogin &&
+          <>
+            <Navbar />
+            <DialogController />
+          </>
+        }
       </>
     );
   }

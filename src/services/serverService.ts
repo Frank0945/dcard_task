@@ -11,12 +11,8 @@ class ServerService {
     public session: Session | null = null;
     private hostTime: number = Date.now();
     private localStartTime: number = Date.now();
-    private serverUrl: string = 'https://dcard-task.vercel.app';
 
     constructor() {
-        if (window.location.href.indexOf('localhost') != -1) {
-            this.serverUrl = "http://localhost:3000"
-        }
         this.getHostTime().then((time) => {
             this.hostTime = time;
         });
@@ -61,7 +57,8 @@ class ServerService {
 
     private getHostTime(): Promise<number> {
         return new Promise<number>((resolve) => {
-            axios.get(this.serverUrl + '/api/time').then((res: any) => {
+            const severUrl = typeof window === 'undefined' ? 'https://dcard-task.vercel.app' : 'http://localhost:3000';
+            axios.get(severUrl + '/api/time').then((res: any) => {
                 resolve(res.data.hostTime);
             });
         });

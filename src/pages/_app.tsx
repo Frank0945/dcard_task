@@ -45,12 +45,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <SessionProvider session={session}>
       <Layout>
       </Layout>
-      {isLogin &&
-        <>
-          <Navbar />
-          <DialogController />
-        </>
-      }
+
       <Component {...pageProps} />
     </SessionProvider>
   );

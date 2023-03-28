@@ -9,13 +9,13 @@ import { serverService } from '@/services/serverService';
 export default function Home() {
 
   const [reload, setReload] = useState(0);
-  const session = useSession();
-
-  useEffect(() => {
-    if (session.status == "authenticated")
-      serverService.session = session.data;
-  }, [session]);
-
+  /* const session = useSession();
+ 
+   useEffect(() => {
+     if (session.status == "authenticated")
+       serverService.session = session.data;
+   }, [session]);
+ */
   const handlePosted = () => {
     setReload(reload + 1);
   };
@@ -26,12 +26,8 @@ export default function Home() {
         <title>Task</title>
       </Head>
       <main className={styles.main}>
-        {session.data &&
-          <>
-            <PostTask onPosted={handlePosted} />
-            <TaskList reload={reload} />
-          </>
-        }
+        <PostTask onPosted={handlePosted} />
+        <TaskList reload={reload} />
       </main>
     </>
   )

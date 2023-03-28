@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-icons/font/bootstrap-icons.css"
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider, useSession } from "next-auth/react"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import DialogController from "@/components/dialogs/dialogs"
@@ -25,12 +25,30 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     });*/
   }, []);
 
+
+  const Layout = ({ children }: any) => {
+    const session = useSession();
+    if (session.status === "loading") {
+      return <>"skeleton UI"</>
+    } else if (session.status === "unauthenticated") {
+      return <Component {...pageProps} />
+    }
+    serverService.session = session.data;
+    return (
+      <>
+        {!isLoginPage && <Navbar />}
+        <Component {...pageProps} />
+        <DialogController />
+      </>
+    );
+  }
+
+
   // if (isLogin || isLoginPage)
   return (
     <SessionProvider session={session}>
-      {/* {!isLoginPage && <Navbar />} */}
-      <Component {...pageProps} />
-      <DialogController />
+      <Layout>
+      </Layout>
     </SessionProvider>
   );
 }

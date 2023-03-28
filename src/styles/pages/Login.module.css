@@ -16,26 +16,26 @@
 }
 
 .taskBlock {
-    background: var(--color-default);
-    width: 43%;
-    height: 511px;
+    background: var(--color-dark);
+    width: 45%;
+    height: 550px;
     position: relative;
     display: flex;
     justify-content: center;
 }
 
 .logo {
-    width: 80%;
+    width: 75%;
     position: absolute;
     z-index: 2;
-    margin-top: 12%;
+    margin-top: 15%;
 }
 
 .loginBlock {
     background: var(--color-bg);
     width: 55%;
     height: 570px;
-    border: 5px var(--color-default) solid;
+    border: 6px var(--color-dark) solid;
     border-radius: 0 360px 360px 0;
     margin-top: 6%;
     margin-left: -20%;
@@ -61,8 +61,8 @@
 .loginBtn {
     display: flex;
     align-items: center;
-    margin-top: 50px;
-    font-size: 23px;
+    margin-top: 45px;
+    font-size: 20px;
     padding-right: 0.7em;
     border: 1px solid var(--color-border-default);
 }

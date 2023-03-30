@@ -3,6 +3,7 @@ import { Session } from "next-auth";
 import { TaskService } from "./taskService";
 import axios from "axios";
 import { axiosInstance } from "@/pages/api/axios";
+import { getSession } from "next-auth/react";
 class ServerService {
 
     public user: UserService = new UserService();
@@ -18,8 +19,19 @@ class ServerService {
         });
     }
 
-    public setSession(session: Session): void {
-        this.session = session;
+    public init(): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            if (this.session)
+                resolve(true);
+
+            getSession().then((session) => {
+                if (session) {
+                    this.session = session;
+                    resolve(true);
+                }
+                resolve(false);
+            });
+        });
     }
 
     public get serverTime(): number {
@@ -41,7 +53,6 @@ class ServerService {
 
     private getHostTime(): Promise<number> {
         return new Promise<number>((resolve) => {
-            //const severUrl = 'https://dcard-task.vercel.app';
             axiosInstance.get('/api/time').then((res: any) => {
                 resolve(res.data.hostTime);
             });

@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-icons/font/bootstrap-icons.css"
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { SessionProvider, useSession } from "next-auth/react"
+import { SessionProvider } from "next-auth/react"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import DialogController from "@/components/dialogs/dialogs"
@@ -11,46 +11,26 @@ import { serverService } from "@/services/serverService"
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
-  const [show, setShow] = useState(false);
+  const router = useRouter();
+  const [isLogin, setIsLogin] = useState(false);
+
+  const isLoginPage = router.pathname == "/login";
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
+    serverService.init().then((status) => {
+      setIsLogin(status);
+      if (!status)
+        router.replace("/login")
+    });
   }, []);
 
-  return (
-    <SessionProvider session={session}>
-      {show &&
-        <Component {...pageProps} />
-      }
-      <Main show={() => setShow(true)} />
-    </SessionProvider>
-  );
-}
-
-const Main = (props: { show: () => void }) => {
-
-  const router = useRouter();
-  const isLoginPage = router.pathname == '/login';
-  const session = useSession();
-
-  if (session.status === "unauthenticated" && !isLoginPage)
-    router.replace("/login");
-
-  if (session.data && isLoginPage) {
-    serverService.setSession(session.data);
-    router.replace("/");
-    return null;
-  }
-
-  if ((session.data || isLoginPage) && session.status != "loading")
-    props.show();
-
-  if (!isLoginPage && session.data)
+  if (isLogin || isLoginPage)
     return (
-      <>
-        <Navbar />
+      <SessionProvider session={session}>
+        {!isLoginPage && <Navbar />}
+        <Component {...pageProps} />
         <DialogController />
-      </>
+      </SessionProvider>
     );
-  return null;
 }

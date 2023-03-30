@@ -36,7 +36,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     return (
       <>
         <Head>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <title>Task</title>
         </Head>
         <SessionProvider session={session}>

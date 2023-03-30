@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import DialogController from "@/components/dialogs/dialogs"
 import Navbar from "@/components/navbar"
 import { serverService } from "@/services/serverService"
+import Head from 'next/dist/shared/lib/head'
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
@@ -33,10 +34,16 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   if ((isLogin && !isLoginPage || !isLogin && isLoginPage) && !isLoading)
     return (
-      <SessionProvider session={session}>
-        {!isLoginPage && <Navbar />}
-        <Component {...pageProps} />
-        <DialogController />
-      </SessionProvider>
+      <>
+        <Head>
+          <link rel="icon" href="/favicon.ico" />
+          <title>Task</title>
+        </Head>
+        <SessionProvider session={session}>
+          {!isLoginPage && <Navbar />}
+          <Component {...pageProps} />
+          <DialogController />
+        </SessionProvider>
+      </>
     );
 }

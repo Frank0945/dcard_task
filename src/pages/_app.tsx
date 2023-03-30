@@ -13,19 +13,25 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   const isLoginPage = router.pathname == "/login";
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
     serverService.init().then((status) => {
       setIsLogin(status);
+      setIsLoading(false);
       if (!status)
         router.replace("/login")
     });
   }, []);
 
-  if (isLogin || isLoginPage)
+  useEffect(() => {
+    if (isLogin && isLoginPage)
+      router.replace("/");
+  }, [isLogin]);
+
+  if ((isLogin && !isLoginPage || !isLogin && isLoginPage) && !isLoading)
     return (
       <SessionProvider session={session}>
         {!isLoginPage && <Navbar />}

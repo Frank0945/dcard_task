@@ -38,6 +38,7 @@ export default function TaskList(props: { reload: number }) {
             const unShown = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             if (scrollTop >= unShown - 10 && !loading && !isMaxPage) {
                 setPage(prevPage => prevPage + 1);
+                window.removeEventListener('scroll', handleScroll);
             }
         };
 
@@ -90,8 +91,9 @@ export default function TaskList(props: { reload: number }) {
                 setTasks(res.items);
 
             setIsMaxPage(res.items.length < 10);
-
         }).catch((err) => {
+            if (page > 1)
+                setPage(prevPage => prevPage - 1);
             dialogService.error(err.message);
         }).finally(() => {
             setLoading(false);

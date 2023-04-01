@@ -24,19 +24,13 @@ export default function Navbar() {
     }
 
     const handleSearch = () => {
-        const queryParams = new URLSearchParams(location.search);
-
-        if (searchQuery.trim()) {
-            queryParams.set('q', searchQuery.trim());
-        }
-        router.push('/?' + queryParams.toString());
+        if (searchQuery.trim())
+            router.push({ pathname: '/', query: { ...router.query, q: searchQuery.trim() } });
     };
 
     const handleClear = () => {
-        const queryParams = new URLSearchParams(location.search);
-        queryParams.delete('q');
-        router.push('/?' + queryParams.toString());
-        setSearchQuery('');
+        delete router.query.q;
+        router.push({ pathname: '/', query: router.query });
     };
 
     return (

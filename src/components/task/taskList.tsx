@@ -156,20 +156,18 @@ export default function TaskList(props: { reload: number }) {
     };
 
     const handleChangeStatus = (status: string) => () => {
-        const queryParams = new URLSearchParams(location.search);
-        queryParams.set('status', status);
+
+        router.query.status = status;
 
         if (status == statusList[0])
-            queryParams.delete('status');
+            delete router.query.status;
 
-        router.push('?' + queryParams.toString());
+        router.push({ pathname: '/', query: router.query });
     }
 
     const handleChangeSort = () => {
-        const queryParams = new URLSearchParams(location.search);
         const order = getOrder();
-        queryParams.set('order', order == 'desc' ? 'asc' : 'desc');
-        router.push('?' + queryParams.toString());
+        router.push({ pathname: '/', query: { ...router.query, order: order == 'desc' ? 'asc' : 'desc' } });
     }
 
     const handleDeleteTask = (number: number) => {

@@ -31,6 +31,7 @@ export default function Navbar() {
     const handleClear = () => {
         delete router.query.q;
         router.push({ pathname: '/', query: router.query });
+        setSearchQuery('');
     };
 
     return (

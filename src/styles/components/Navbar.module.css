@@ -74,5 +74,5 @@
 
 .clear:hover i,
 .search:hover i {
-    transform: scale(1.2);
+    filter: brightness(75%);
 }

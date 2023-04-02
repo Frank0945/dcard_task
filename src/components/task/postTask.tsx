@@ -1,7 +1,7 @@
 import { dialogService } from '@/services/dialogService';
 import { serverService } from '@/services/serverService';
 import styles from '@/styles/components/task/PostTask.module.css'
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import TaskContentArea from './taskContentArea';
 
@@ -33,10 +33,10 @@ export default function PostTask(props: { onPosted: () => void }) {
     useEffect(() => {
 
         if (!content && !focus) {
-            contentPlaceHolderRef.current!.addEventListener('animationiteration', choosePlaceHolder);
+            contentPlaceHolderRef.current?.addEventListener('animationiteration', choosePlaceHolder);
         } else {
             setContentPlaceHolder(placeHolders[0]);
-            contentPlaceHolderRef.current!.removeEventListener('animationiteration', choosePlaceHolder);
+            contentPlaceHolderRef.current?.removeEventListener('animationiteration', choosePlaceHolder);
             contentPlaceHolderRef.current!.style.animationName = '';
         }
 

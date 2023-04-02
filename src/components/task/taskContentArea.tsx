@@ -22,6 +22,8 @@ export default function TaskContentArea(props: { content: string, editable: bool
             rows={1}
             onChange={handleChange}
             defaultValue={props.content}
+            autoFocus={(props.editable && props.content) as boolean}
+            onFocus={(e) => e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)}
         />
     )
 }

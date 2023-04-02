@@ -39,7 +39,11 @@
     font-family: monospace;
 }
 
-@keyframes nothing {}
+@keyframes nothing {
+    100% {
+        opacity: 1;
+    }
+}
 
 .body {
     display: flex;

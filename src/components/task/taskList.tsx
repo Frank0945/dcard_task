@@ -143,12 +143,10 @@ export default function TaskList(props: { reload: number }) {
 
             children[i].style.transform = `translate(${left}px, ${top}px)`;
             children[i].style.zIndex = `${children.length - i}`;
-
             if (!children[i].style.opacity)
-                setTimeout(() => {
-                    if (children[i])
-                        children[i].style.opacity = '1';
-                }, 300);
+                children[i].addEventListener('transitionend', () => {
+                    children[i].style.opacity = '1';
+                }, { once: true });
 
             if (i === children.length - 1)
                 current.style.height = `${Math.max(...rowHeight)}px`;

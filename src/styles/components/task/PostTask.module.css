@@ -34,10 +34,12 @@
     overflow: hidden;
     white-space: nowrap;
     width: 50ch;
-    animation: 5s steps(50) infinite;
+    animation: nothing 5s steps(50) infinite;
     pointer-events: none;
     font-family: monospace;
 }
+
+@keyframes nothing {}
 
 .body {
     display: flex;

@@ -11,53 +11,16 @@ export default function PostTask(props: { onPosted: () => void }) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [postDisabled, setPostDisabled] = useState(true);
-    const [contentPlaceHolder, setContentPlaceHolder] = useState('');
     const contentPlaceHolderRef = useRef<HTMLDivElement>(null);
-
-    const handleCancelFocus = () => {
-        if (!title && !content)
-            setFocus(false);
-    };
-    const mainRef = useDetectClickOutside({ onTriggered: handleCancelFocus });
-
-    let interval: any = null;
-
-    useEffect(() => {
-        const placeHolders = [
-            "Add task...",
-            "Complete annual report, submit by Friday",
-            "Buy pizza ingredients for weekend",
-            "Confirm order delivery time",
-            "Respond to customer email",
-            "Organize office files"
-        ];
-
-        setContentPlaceHolder(placeHolders[0]);
-
-        if (!content && !focus) {
-
-            let idx = 1;
-            const choosePlaceHolder = () => {
-
-                if (idx >= placeHolders.length)
-                    idx = 0;
-                setContentPlaceHolder(placeHolders[idx]);
-                idx++;
-                if (contentPlaceHolderRef.current)
-                    contentPlaceHolderRef.current.style.animationName = 'typing';
-            };
-            interval = setInterval(() => {
-                choosePlaceHolder();
-            }, 5000);
-        } else {
-            contentPlaceHolderRef.current!.style.animationName = '';
-        }
-
-        return () => {
-            clearInterval(interval);
-        }
-
-    }, [content, focus]);
+    const placeHolders: string[] = [
+        "Add task...",
+        "Complete annual report, submit by Friday",
+        "Buy pizza ingredients for weekend",
+        "Confirm order delivery time",
+        "Respond to customer email",
+        "Organize office files"
+    ];
+    const [contentPlaceHolder, setContentPlaceHolder] = useState(placeHolders[0]);
 
     useEffect(() => {
         if (title && content.length >= 30)
@@ -66,6 +29,31 @@ export default function PostTask(props: { onPosted: () => void }) {
             setPostDisabled(true);
 
     }, [content, title]);
+
+    useEffect(() => {
+
+        if (!content && !focus) {
+            contentPlaceHolderRef.current!.addEventListener('animationiteration', choosePlaceHolder);
+        } else {
+            setContentPlaceHolder(placeHolders[0]);
+            contentPlaceHolderRef.current!.removeEventListener('animationiteration', choosePlaceHolder);
+            contentPlaceHolderRef.current!.style.animationName = '';
+        }
+
+    }, [content, focus]);
+
+    const handleCancelFocus = () => {
+        if (!title && !content)
+            setFocus(false);
+    };
+    const mainRef = useDetectClickOutside({ onTriggered: handleCancelFocus });
+
+    const choosePlaceHolder = () => {
+        let idx = placeHolders.indexOf(contentPlaceHolderRef.current?.innerText as string) + 1;
+        idx = idx >= placeHolders.length ? 0 : idx;
+        setContentPlaceHolder(placeHolders[idx]);
+        contentPlaceHolderRef.current!.style.animationName = 'typing';
+    };
 
     const handleContentChange = (content: string) => {
         setContent(content);
@@ -130,7 +118,7 @@ export default function PostTask(props: { onPosted: () => void }) {
                 </div>
                 <div ref={contentPlaceHolderRef} className={styles.contentPlaceHolder}>
                     {!content &&
-                        <>{contentPlaceHolder}</>
+                        contentPlaceHolder
                     }
                 </div>
             </div>

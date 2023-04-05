@@ -1,7 +1,7 @@
 import { dialogService } from '@/services/dialogService';
 import { serverService } from '@/services/serverService';
 import styles from '@/styles/components/task/PostTask.module.css'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import TaskContentArea from './taskContentArea';
 
@@ -30,8 +30,14 @@ export default function PostTask(props: { onPosted: () => void }) {
 
     }, [content, title]);
 
-    useEffect(() => {
+    const choosePlaceHolder = () => {
+        let idx = placeHolders.indexOf(contentPlaceHolderRef.current?.innerText as string) + 1;
+        idx = idx >= placeHolders.length ? 0 : idx;
+        setContentPlaceHolder(placeHolders[idx]);
+        contentPlaceHolderRef.current!.style.animationName = 'typing';
+    }
 
+    useEffect(() => {
         if (!content && !focus) {
             contentPlaceHolderRef.current?.addEventListener('animationiteration', choosePlaceHolder);
         } else {
@@ -40,6 +46,9 @@ export default function PostTask(props: { onPosted: () => void }) {
             contentPlaceHolderRef.current!.style.animationName = '';
         }
 
+        return () => {
+            contentPlaceHolderRef.current?.removeEventListener('animationiteration', choosePlaceHolder);
+        };
     }, [content, focus]);
 
     const handleCancelFocus = () => {
@@ -48,12 +57,6 @@ export default function PostTask(props: { onPosted: () => void }) {
     };
     const mainRef = useDetectClickOutside({ onTriggered: handleCancelFocus });
 
-    const choosePlaceHolder = () => {
-        let idx = placeHolders.indexOf(contentPlaceHolderRef.current?.innerText as string) + 1;
-        idx = idx >= placeHolders.length ? 0 : idx;
-        setContentPlaceHolder(placeHolders[idx]);
-        contentPlaceHolderRef.current!.style.animationName = 'typing';
-    };
 
     const handleContentChange = (content: string) => {
         setContent(content);

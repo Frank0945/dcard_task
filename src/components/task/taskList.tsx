@@ -32,16 +32,16 @@ export default function TaskList(props: { reload: number }) {
 
     }, []);
 
+    const handleScroll = () => {
+        const scrollTop = document.documentElement.scrollTop;
+        const unShown = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (scrollTop >= unShown - 10 && !loading && !isMaxPage) {
+            setPage(prevPage => prevPage + 1);
+            window.removeEventListener('scroll', handleScroll);
+        }
+    };
+    
     useEffect(() => {
-        const handleScroll = () => {
-            const scrollTop = document.documentElement.scrollTop;
-            const unShown = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            if (scrollTop >= unShown - 10 && !loading && !isMaxPage) {
-                setPage(prevPage => prevPage + 1);
-                window.removeEventListener('scroll', handleScroll);
-            }
-        };
-
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);

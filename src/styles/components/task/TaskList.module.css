@@ -20,7 +20,7 @@
 }
 
 .taskBox.show {
-    transition: width .2s, height .2s;
+    transition: unset;
     width: 60%;
     max-width: 550px;
     z-index: 1031 !important;
@@ -29,6 +29,13 @@
     transform: translate(50%, -50%) !important;
     position: fixed;
     overflow: hidden;
+    animation: task-in .3s;
+}
+
+@keyframes task-in {
+    from {
+        opacity: 0;
+    }
 }
 
 html:has(.taskBox.show) {
